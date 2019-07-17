@@ -1,10 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
-import data from '../fruits.json';
+import { Wrapper, Label, Input } from './AutocompleteStyles';
 
-function Autocomplete() {
-  data.map(fruit => console.log(fruit));
-  return <input type="text" name="autocomplete" />;
+function Autocomplete(props) {
+  const [suggestions, setSuggestions] = useState(props.suggestions);
+
+  return (
+    <Wrapper>
+      <Label htmlFor="autocomplete">Fruit or legume</Label>
+      <Input id="autocomplete" type="text" name="autocomplete" />
+      <ul>
+        {suggestions.map(fruit => (
+          <li>{fruit}</li>
+        ))}
+      </ul>
+    </Wrapper>
+  );
 }
+
+Autocomplete.propTypes = {
+  suggestions: PropTypes.arrayOf(PropTypes.string),
+};
+
+Autocomplete.defaultProps = {
+  suggestions: [],
+};
 
 export default Autocomplete;
