@@ -4,8 +4,9 @@ import PropTypes from 'prop-types';
 import { Wrapper, Label, Input } from './AutocompleteStyles';
 
 function Autocomplete(props) {
-  const [suggestions, setSuggestions] = useState(props.suggestions);
+  const [suggestions] = useState(props.suggestions);
   const [filtered, setFiltered] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const [value, setValue] = useState('');
 
   useEffect(() => {
@@ -19,6 +20,7 @@ function Autocomplete(props) {
   const handleChange = e => {
     const inputValue = e.target.value;
     setValue(inputValue);
+    setShowSuggestions(true);
   };
 
   return (
@@ -31,11 +33,13 @@ function Autocomplete(props) {
         value={value}
         onChange={handleChange}
       />
-      <ul>
-        {filtered.map((fruit, idx) => (
-          <li key={idx}>{fruit}</li>
-        ))}
-      </ul>
+      {showSuggestions && value && (
+        <ul>
+          {filtered.map((fruit, idx) => (
+            <li key={idx}>{fruit}</li>
+          ))}
+        </ul>
+      )}
     </Wrapper>
   );
 }
