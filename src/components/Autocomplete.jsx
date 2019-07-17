@@ -10,8 +10,8 @@ function Autocomplete(props) {
   const [value, setValue] = useState('');
 
   useEffect(() => {
-    const newSuggestions = suggestions.filter(
-      suggestion => suggestion.toLowerCase().indexOf(value.toLowerCase()) > -1
+    const newSuggestions = suggestions.filter(suggestion =>
+      suggestion.toLowerCase().includes(value.toLowerCase())
     );
 
     setFiltered(newSuggestions);
@@ -35,9 +35,28 @@ function Autocomplete(props) {
       />
       {showSuggestions && value && (
         <ul>
-          {filtered.map((fruit, idx) => (
-            <li key={idx}>{fruit}</li>
-          ))}
+          {filtered.map((fruit, idx) => {
+            const valueIdx = fruit.toLowerCase().indexOf(value);
+            const valueLength = value.length;
+
+            const front = fruit.substring(0, valueIdx);
+            const rest = fruit.substring(valueIdx + valueLength);
+
+            const highlighted =
+              valueIdx === 0 ? (
+                <b>{`${value[0].toUpperCase()}${value.substring(1)}`}</b>
+              ) : (
+                <b>{value}</b>
+              );
+
+            return (
+              <li key={idx}>
+                {front}
+                {highlighted}
+                {rest}
+              </li>
+            );
+          })}
         </ul>
       )}
     </Wrapper>
