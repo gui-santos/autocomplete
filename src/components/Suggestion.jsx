@@ -1,5 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+
+const ListItem = styled.li`
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  &:hover {
+    background-color: #eaf5ff;
+  }
+`;
 
 function Suggestion({ value, filterValue, handleClick }) {
   const filterValueIdx = value.toLowerCase().indexOf(filterValue.toLowerCase());
@@ -11,15 +20,17 @@ function Suggestion({ value, filterValue, handleClick }) {
     filterValueIdx === 0 ? (
       <b>{`${filterValue[0].toUpperCase()}${filterValue.substring(1)}`}</b>
     ) : (
-      <b>{filterValue}</b>
+      <b>{filterValue.toLowerCase()}</b>
     );
 
+  console.log({ filterValueIdx, value });
+
   return (
-    <li onClick={() => handleClick(value)}>
+    <ListItem onClick={() => handleClick(value)}>
       {front}
       {highlighted}
       {rest}
-    </li>
+    </ListItem>
   );
 }
 

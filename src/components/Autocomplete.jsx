@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import { Wrapper, Label, Input } from './AutocompleteStyles';
+import { Wrapper, Label, Input, SuggestionList } from './AutocompleteStyles';
 import Suggestion from './Suggestion';
 
 function Autocomplete(props) {
@@ -40,7 +40,7 @@ function Autocomplete(props) {
         onChange={handleChange}
       />
       {showSuggestions && value && (
-        <ul>
+        <SuggestionList>
           {filtered.map((fruit, idx) => (
             <Suggestion
               key={idx}
@@ -49,7 +49,7 @@ function Autocomplete(props) {
               handleClick={handleClick}
             />
           ))}
-        </ul>
+        </SuggestionList>
       )}
     </Wrapper>
   );
