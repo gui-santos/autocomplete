@@ -19,10 +19,6 @@ function Autocomplete(props) {
     setFiltered(newSuggestions);
   }, [value, suggestions]);
 
-  useEffect(() => {
-    console.log(activeSuggestion);
-  }, [activeSuggestion]);
-
   const handleChange = e => {
     const inputValue = e.target.value;
     setValue(inputValue);
@@ -38,22 +34,25 @@ function Autocomplete(props) {
   const handleKeyDown = e => {
     switch (e.keyCode) {
       case 40:
+        // handle case when user press DOWN
         if (activeSuggestion < filtered.length - 1) {
           setActiveSuggestion(activeSuggestion + 1);
         }
-        console.log('DOWN');
         break;
       case 38:
+        // handle case when user press UP
         if (activeSuggestion > 0) {
           setActiveSuggestion(activeSuggestion - 1);
         }
-        console.log('UP');
         break;
       case 13:
-        console.log('ENTER');
+        // handle case when user press ENTER
+        setValue(filtered[activeSuggestion]);
+        setShowSuggestions(false);
+        setActiveSuggestion(0);
         break;
       default:
-        return undefined;
+        return;
     }
   };
 
