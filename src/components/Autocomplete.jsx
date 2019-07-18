@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { Wrapper, Label, Input } from './AutocompleteStyles';
+import Suggestion from './Suggestion';
 
 function Autocomplete(props) {
   const [suggestions] = useState(props.suggestions);
@@ -23,6 +24,11 @@ function Autocomplete(props) {
     setShowSuggestions(true);
   };
 
+  const handleClick = value => {
+    setValue(value);
+    setShowSuggestions(false);
+  };
+
   return (
     <Wrapper>
       <Label htmlFor="autocomplete">Fruit or legume</Label>
@@ -35,28 +41,14 @@ function Autocomplete(props) {
       />
       {showSuggestions && value && (
         <ul>
-          {filtered.map((fruit, idx) => {
-            const valueIdx = fruit.toLowerCase().indexOf(value);
-            const valueLength = value.length;
-
-            const front = fruit.substring(0, valueIdx);
-            const rest = fruit.substring(valueIdx + valueLength);
-
-            const highlighted =
-              valueIdx === 0 ? (
-                <b>{`${value[0].toUpperCase()}${value.substring(1)}`}</b>
-              ) : (
-                <b>{value}</b>
-              );
-
-            return (
-              <li key={idx}>
-                {front}
-                {highlighted}
-                {rest}
-              </li>
-            );
-          })}
+          {filtered.map((fruit, idx) => (
+            <Suggestion
+              key={idx}
+              value={fruit}
+              filterValue={value}
+              handleClick={handleClick}
+            />
+          ))}
         </ul>
       )}
     </Wrapper>
