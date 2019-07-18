@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const ListItem = styled.li`
+  background-color: ${props => (!props.active ? 'transparent' : '#eaf5ff')};
   padding: 0.75rem 1rem;
   cursor: pointer;
   &:hover {
@@ -10,7 +11,7 @@ const ListItem = styled.li`
   }
 `;
 
-function Suggestion({ value, filterValue, handleClick }) {
+function Suggestion({ value, active, filterValue, handleClick }) {
   const filterValueIdx = value.toLowerCase().indexOf(filterValue.toLowerCase());
   const filterValueLength = filterValue.length;
 
@@ -23,10 +24,8 @@ function Suggestion({ value, filterValue, handleClick }) {
       <b>{filterValue.toLowerCase()}</b>
     );
 
-  console.log({ filterValueIdx, value });
-
   return (
-    <ListItem onClick={() => handleClick(value)}>
+    <ListItem onClick={() => handleClick(value)} active={active}>
       {front}
       {highlighted}
       {rest}
@@ -38,6 +37,11 @@ Suggestion.propTypes = {
   value: PropTypes.string.isRequired,
   filterValue: PropTypes.string.isRequired,
   handleClick: PropTypes.func.isRequired,
+  active: PropTypes.bool,
+};
+
+Suggestion.defaultProps = {
+  active: false,
 };
 
 export default Suggestion;
